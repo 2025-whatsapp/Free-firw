@@ -1,0 +1,1 @@
+console.log("Demo Free Fire site running");
